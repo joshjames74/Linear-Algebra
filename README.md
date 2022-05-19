@@ -1,7 +1,13 @@
 # Linear Algebra
-This repository is designed to represent various topics in linear algebra in python. The intention is to use these representations for further applications.
+This repository is designed to represent various topics in linear algebra in python. 
 
-Topics include:
-- Permutations
-- Vectors
-- Matrices
+Some topics covered:
+- Vector addition and subtraction
+- Vector cross product and dot product
+- Determining an orthonormal basis for a list of vectors
+- Matrix addition and subtraction
+- Matrix multiplication
+- Determinant of matrices
+- Adjudgate and inverse matrices
+- QR-decomposition
+- Eigenvalues of matrices
