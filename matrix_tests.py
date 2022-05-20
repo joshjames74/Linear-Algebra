@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import pytest
 from matrix import Matrix
 
 
@@ -13,46 +14,98 @@ def random_matrix(col_num, row_num, upper=10, lower=-10) -> list:
     return matrix
 
 
-def test_det_matrix(matrix, round_value=5):
-    '''Test determinant of matrix against np'''
+def get_np_det(matrix, round_value=5):
     # Get determinant of np matrix
-    np_matrix = np.matrix(matrix)
+    np_matrix = np.array(matrix)
     np_det = np.linalg.det(np_matrix)
+    np_det = round(np_det, round_value)
+    return np_det
+
+
+def get_test_det(matrix, round_value=5):
     # Get determinant of test matrix
     test_matrix = Matrix(matrix)
     test_det = test_matrix.det()
-    # Round both determinants
-    np_det = round(np_det, round_value)
+    # Round determinant
     test_det = round(test_det, round_value)
-    # Assert
-    assert(np_det == test_det)
+    return test_det
 
 
-def test_inv_matrix(matrix, round_value=5):
-    '''Test inverse of matrix against np'''
+def get_np_inv(matrix, round_value=5):
     # Get inverse of np matrix
-    np_matrix = np.matrix(matrix)
+    np_matrix = np.array(matrix)
     np_inv = np.linalg.inv(np_matrix)
+    return np_inv
+
+
+def get_test_inv(matrix, round_value=5):
     # Get inverse of test matrix
     test_matrix = Matrix(matrix)
     test_inv = test_matrix.inverse()
-    # Convert test_inv to np matrix
-    test_inv = np.matrix(test_inv.values)
-    # Assert
+    return np.array(test_inv.values)
+
+
+# Test determinant of square matrices
+
+
+def test_2x2_determinant():
+    # Get test matrix
+    matrix = random_matrix(2, 2)
+    assert get_np_det(matrix) == get_test_det(matrix)
+
+
+def test_3x3_determinant():
+    # Get test matrix
+    matrix = random_matrix(3, 3)
+    assert get_np_det(matrix) == get_test_det(matrix)
+
+
+def test_4x4_determinant():
+    # Get test matrix
+    matrix = random_matrix(4, 4)
+    assert get_np_det(matrix) == get_test_det(matrix)
+
+
+def test_5x5_determinant():
+    # Get test matrix
+    matrix = random_matrix(5, 5)
+    assert get_np_det(matrix) == get_test_det(matrix)
+
+
+# Test inverse of square matrices
+
+
+def test_2x2_inverse():
+    # Get test matrix
+    matrix = random_matrix(2, 2)
     np.testing.assert_array_almost_equal(
-        test_inv, np_inv, decimal=round_value)
+        get_np_inv(matrix),
+        get_test_inv(matrix)
+    )
 
 
-# Generate matrices
-def test_matrices(function, count, col_num, row_num):
-    for i in range(count):
-        matrix = random_matrix(col_num, row_num)
-        function(matrix)
+def test_3x3_inverse():
+    # Get test matrix
+    matrix = random_matrix(3, 3)
+    np.testing.assert_array_almost_equal(
+        get_np_inv(matrix),
+        get_test_inv(matrix)
+    )
 
-func_list = [test_inv_matrix, test_det_matrix]
 
-# Test functions of square matrices
-repeats = 5
-for func in func_list:
-    for i in range(2, 6):
-        test_matrices(func, 5, i, i)
+def test_4x4_inverse():
+    # Get test matrix
+    matrix = random_matrix(4, 4)
+    np.testing.assert_array_almost_equal(
+        get_np_inv(matrix),
+        get_test_inv(matrix)
+    )
+
+
+def test_5x5_inverse():
+    # Get test matrix
+    matrix = random_matrix(5, 5)
+    np.testing.assert_array_almost_equal(
+        get_np_inv(matrix),
+        get_test_inv(matrix)
+    )
